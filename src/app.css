@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply w-full font-base text-base bg-background text-text overflow-x-hidden p-0 m-0;
+    }
+
+    * {
+        @apply box-border transition-all duration-300;
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.scrollbar-thumb') theme('colors.scrollbar-track');
+    }
+
+    a {
+        @apply text-primary-dark no-underline;
+    }
+
+    a:hover {
+        @apply text-primary-hover;
+    }
+
+    ::-webkit-scrollbar {
+        @apply w-3;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-scrollbar-track rounded-xl shadow-inner;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-scrollbar-thumb rounded-xl border border-scrollbar-border shadow-inner;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-scrollbar-hover;
+    }
+
+}
+
+@layer components {
+    .overlay {
+        @apply fixed top-0 left-0 w-full h-full z-[1000] bg-overlay transition-all duration-300;
+    }
+
+    .overlay .content {
+        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+    }
+
+    .overlay .content .loader {
+        @apply w-[200px] max-w-[95%] bg-white overflow-hidden rounded-xl;
+    }
+
+    .overlay .content .loader .track {
+        @apply bg-primary w-0 h-[6px] transition-all duration-1000;
+    }
+
+    .gradient-text {
+        @apply bg-white bg-gradient-primary bg-clip-text text-transparent bg-[length:100%];
+    }
+
+    .button {
+        @apply bg-white/20 inline-block no-underline text-white py-2 px-4 rounded-full font-bold text-sm transition-all duration-200;
+    }
+
+    .button.transparent {
+        @apply bg-transparent;
+    }
+
+    .button.color.main {
+        @apply text-primary;
+    }
+
+    .button:hover {
+        @apply bg-white/30;
+    }
+
+    .button.main-button {
+        @apply bg-primary-dark text-white;
+    }
+
+    .button.main-button:hover {
+        @apply bg-primary-hover;
+    }
+
+    .button.main-button:disabled {
+        @apply opacity-50;
+    }
+
+    .heading {
+        @apply m-0 py-1.5;
+    }
+
+    .input {
+        @apply w-full p-4 border border-primary/30 bg-background-secondary text-text caret-text rounded-lg mb-1.5;
+    }
+
+    .input:focus {
+        @apply outline outline-primary-hover outline-offset-1 shadow-none;
+    }
+
+    .input:disabled {
+        @apply opacity-50;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        @apply scale-150 accent-primary-hover;
+    }
+
+    .error {
+        @apply text-error text-sm block pl-1.5 bg-overlay rounded-lg my-1;
+    }
+
+    .error.animate {
+        animation: error-animate 0.3s linear;
+    }
+
+    @keyframes error-animate {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+}
+
+@layer utilities {
+
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+}
