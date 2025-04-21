@@ -1,0 +1,21 @@
+import { json } from '@sveltejs/kit';
+import { basicAuth, getEndpoint } from '$lib/server/utilities';
+import { parseJSONSafe } from '$lib/functions';
+
+export async function GET({ cookies }) {
+    try {
+        const accessToken = cookies.get('access_token');
+
+        const apiResponse = await fetch(
+            getEndpoint('/users/me'),
+            basicAuth('GET', {access_token: accessToken})
+        );
+
+        const apiData = parseJSONSafe(await apiResponse.json());
+
+        return json(apiData, { status: apiResponse.status });
+    } catch (error) {
+        console.error('Error:', error);
+        return json({ error: 'Internal server error' }, { status: 500 });
+    }
+}

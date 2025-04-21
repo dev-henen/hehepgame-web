@@ -84,11 +84,15 @@
         @apply bg-primary-dark text-white;
     }
 
+    .button.secondary {
+        @apply bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-lg;
+    }
+
     .button.main-button:hover {
         @apply bg-primary-hover;
     }
 
-    .button.main-button:disabled {
+    .button:disabled {
         @apply opacity-50;
     }
 
@@ -97,11 +101,7 @@
     }
 
     .input {
-        @apply w-full p-4 border border-primary/30 bg-background-secondary text-text caret-text rounded-lg mb-1.5;
-    }
-
-    .input:focus {
-        @apply outline outline-primary-hover outline-offset-1 shadow-none;
+        @apply w-full px-4 py-3 rounded-lg bg-[#171618] text-white placeholder-gray-500 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500;
     }
 
     .input:disabled {
@@ -144,5 +144,11 @@
         /* IE and Edge */
         scrollbar-width: none;
         /* Firefox */
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, rgb(128, 243, 75), rgb(187, 127, 48));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 }
