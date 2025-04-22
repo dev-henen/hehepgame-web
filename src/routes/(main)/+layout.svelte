@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatMoney } from "$lib/functions";
+  import { formatMoney, trimName } from "$lib/functions";
   import { onMount } from "svelte";
 
   export let data;
@@ -88,7 +88,7 @@
           on:click={() => (showTopNavLoginDropDown = !showTopNavLoginDropDown)}
         >
           <i class="fa fa-user-circle text-2xl"></i>
-          {user.data.name}
+          {trimName(user.data.name)}
         </button>
         {#if showTopNavLoginDropDown}
           <div
@@ -133,7 +133,7 @@
       <i class="fa fa-wallet"></i>
       {!user.isLoggedIn ? "Wallet" : formatMoney(user.data.balance)}
     </a>
-    
+
     {#if user.isLoggedIn}
       <a href="/notifications" class="relative text-white">
         <i class="fa fa-bell"></i>

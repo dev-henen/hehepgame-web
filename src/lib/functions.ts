@@ -49,3 +49,9 @@ export function formatSuperFriendlyDate(dateInput: Date | string): string {
     }).format(date);
 }
 
+export function trimName(name: string, maxLength: number = 10): string {
+    if (name.length <= maxLength) {
+        return name;
+    }
+    return name.slice(0, maxLength - 3) + '...';
+}
