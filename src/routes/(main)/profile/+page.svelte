@@ -1,17 +1,68 @@
-<script>
-  let isEditing = false;
-  let name = "John Doe";
-  let email = "johndoe@example.com";
-  let birthday = "1995-05-15";
-  let phone = "+1234567890";
+<script lang="ts">
+  import { notify } from "$lib/notification";
+
+  export let data;
+
+  const user = data.user;
+
+  let isEditing: boolean = false;
+  let name: string = user.data.name || "";
+  let email: string = user.data.email || "";
+  let birthday: string = user.data.dateOfBirth
+    ? new Date(user.data.dateOfBirth).toISOString().split("T")[0]
+    : "";
+  let formattedBirthday: string = user.data.dateOfBirth
+    ? new Date(user.data.dateOfBirth).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "";
+  let phone: string = "+1234567890";
+  let error: string = "";
+  let isBusy: boolean = false;
 
   function toggleEdit() {
     isEditing = !isEditing;
   }
 
-  function saveChanges() {
-    isEditing = false;
-    // Save logic here
+  async function handleUpdate() {
+    error = ""; // Reset error message
+
+    if (
+      name === user.data.name &&
+      birthday ===
+        (new Date(user.data.dateOfBirth).toISOString().split("T")[0] || "")
+    ) {
+      notify("No changes detected!");
+      return;
+    }
+
+    try {
+      isBusy = true; // Set busy state
+      const response = await fetch("/api/users/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          dateOfBirth: birthday,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        notify("Changes updated successfully!");
+        isEditing = false; // Exit edit mode
+      } else {
+        error = data.message || data.error || "Failed to update account";
+      }
+    } catch (e) {
+      console.error(e);
+      notify("An error occurred while update your account.");
+    } finally {
+      isBusy = false; // Reset busy state
+    }
   }
 </script>
 
@@ -24,13 +75,20 @@
   </div>
 
   <div class="bg-[#131214] rounded-2xl shadow-lg p-6 space-y-6 max-w-3xl">
+    <div class="text-red-500">{error}</div>
     <!-- Profile Fields -->
     <div class="space-y-4">
       <!-- Name -->
       <div>
         <label class="block text-gray-400 mb-1" for="name">Name</label>
         {#if isEditing}
-          <input id="name" type="text" bind:value={name} class="input" />
+          <input
+            id="name"
+            type="text"
+            bind:value={name}
+            class="input"
+            disabled={isBusy}
+          />
         {:else}
           <p class="text-lg">{name}</p>
         {/if}
@@ -44,14 +102,14 @@
       </div>
 
       <!-- Phone -->
-      <div>
+      <!-- <div>
         <label class="block text-gray-400 mb-1" for="phone">Phone</label>
         {#if isEditing}
-          <input id="phone" type="tel" bind:value={phone} class="input" />
+          <input id="phone" type="tel" bind:value={phone} class="input" disabled={isBusy} />
         {:else}
           <p class="text-lg">{phone}</p>
         {/if}
-      </div>
+      </div> -->
 
       <!-- Birthday -->
       <div>
@@ -62,9 +120,10 @@
             type="date"
             bind:value={birthday}
             class="input"
+            disabled={isBusy}
           />
         {:else}
-          <p class="text-lg">{birthday}</p>
+          <p class="text-lg">{formattedBirthday}</p>
         {/if}
       </div>
     </div>
@@ -72,7 +131,9 @@
     {#if isEditing}
       <!-- Save button appears only when editing -->
       <div class="flex justify-end pt-4">
-        <button class="button" on:click={saveChanges}> Save Changes </button>
+        <button class="button" on:click={handleUpdate} disabled={isBusy}>
+          Save Changes
+        </button>
       </div>
     {/if}
   </div>

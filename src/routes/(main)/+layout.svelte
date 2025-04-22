@@ -3,6 +3,8 @@
 
   export let data;
 
+  $: pathname = data.pathname;
+
   const user = data.user;
 
   let search: string = "";
@@ -136,22 +138,28 @@
       <li>
         <a
           href="/"
-          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-gradient-to-r from-green-400/30 to-white/20 hover:text-white"
-          >🏠 Home</a
+          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
+          '/'
+            ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
+            : ''}">🏠 Home</a
         >
       </li>
       <li>
         <a
           href="/profile"
-          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white"
-          >👨🏾‍💼 Profile</a
+          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
+          '/profile'
+            ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
+            : ''}">👨🏾‍💼 Profile</a
         >
       </li>
       <li>
         <a
           href="#/1"
-          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white"
-          >🎁 BC Originals</a
+          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
+          '/link'
+            ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
+            : ''}">🎁 BC Originals</a
         >
       </li>
     </ul>
@@ -167,7 +175,7 @@
               >{quickplay.icon}</a
             >
             <span
-              class="absolute invisible group-hover:visible bg-white/30 backdrop-blur-sm p-2 rounded-md text-xs md:text-sm text-white -top-2 left-14 whitespace-nowrap"
+              class="absolute invisible group-hover:visible bg-white/30 backdrop-blur-sm p-2 rounded-md text-xs md:text-sm text-white -top-2 left-14 whitespace-nowrap z-10"
             >
               {quickplay.tip}
             </span>
@@ -180,15 +188,19 @@
       <li>
         <a
           href="#/1"
-          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white"
-          >💰 Lottery</a
+          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
+          '/link'
+            ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
+            : ''}">💰 Lottery</a
         >
       </li>
       <li>
         <a
           href="#/1"
-          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white"
-          >⚙ Settings</a
+          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
+          '/link'
+            ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
+            : ''}">⚙ Settings</a
         >
       </li>
     </ul>

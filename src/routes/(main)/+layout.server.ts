@@ -29,5 +29,6 @@ export const load: LayoutServerLoad = async ({ fetch, url }) => {
 
     return {
         user,
+        pathname: url.pathname,
     };
 };
