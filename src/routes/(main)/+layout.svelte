@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { formatMoney } from "$lib/functions";
   import { onMount } from "svelte";
 
   export let data;
@@ -124,13 +125,24 @@
     </button>
   </div>
 
-  <div>
+  <div class="flex items-center justify-between">
     <a
-      href="#/1"
-      class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full hover:bg-white/20"
+      href="/wallet"
+      class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full hover:bg-white/20 text-white"
     >
-      <i class="fa fa-wallet"></i> Wallet
+      <i class="fa fa-wallet"></i>
+      {!user.isLoggedIn ? "Wallet" : formatMoney(user.data.balance)}
     </a>
+    
+    {#if user.isLoggedIn}
+      <a href="/notifications" class="relative text-white">
+        <i class="fa fa-bell"></i>
+        <span
+          class="absolute -top-4 -right-4 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1"
+          >3</span
+        >
+      </a>
+    {/if}
   </div>
 
   <nav class="space-y-6">
@@ -151,15 +163,6 @@
           '/profile'
             ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
             : ''}">👨🏾‍💼 Profile</a
-        >
-      </li>
-      <li>
-        <a
-          href="#/1"
-          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
-          '/link'
-            ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
-            : ''}">🎁 BC Originals</a
         >
       </li>
     </ul>
@@ -191,7 +194,7 @@
           class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
           '/link'
             ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
-            : ''}">💰 Lottery</a
+            : ''}">💰 Slots</a
         >
       </li>
       <li>
