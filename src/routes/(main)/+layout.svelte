@@ -1,6 +1,38 @@
-<script>
-  let search = "";
-  let sidebarOpen = false;
+<script lang="ts">
+  import { onMount } from "svelte";
+
+  export let data;
+
+  const user = data.user;
+
+  let search: string = "";
+  let sidebarOpen: boolean = false;
+  let showTopNavLoginDropDown: boolean = false;
+
+  onMount(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        !target.closest(".sidebar") &&
+        !target.closest(".menuButton") &&
+        sidebarOpen
+      ) {
+        sidebarOpen = false;
+      }
+      if (
+        !target.closest(".topNavLoginDropDown") &&
+        !target.closest(".topNavLoginDropDownButton") &&
+        showTopNavLoginDropDown
+      ) {
+        showTopNavLoginDropDown = false;
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  });
 </script>
 
 <!-- Navbar -->
@@ -8,7 +40,7 @@
   class="fixed top-0 left-0 flex items-center bg-[#171618] w-full p-4 z-50 md:left-[300px] md:w-[calc(100%-300px)]"
 >
   <button
-    class="md:hidden mr-4"
+    class="md:hidden mr-4 menuButton"
     on:click={() => (sidebarOpen = !sidebarOpen)}
     aria-label="Menu"
   >
@@ -16,7 +48,9 @@
   </button>
 
   <div class="flex-1">
-    <h1 class="text-2xl md:text-3xl font-bold gradient-text">hehepgame</h1>
+    <h1 class="text-2xl md:text-3xl font-bold">
+      <a href="/" class="gradient-text">hehepgame</a>
+    </h1>
   </div>
 
   <div class="hidden md:block md:w-1/2 px-2">
@@ -31,31 +65,60 @@
     </div>
   </div>
 
-  <div class="hidden md:flex md:w-1/4 justify-end gap-2">
-    <a
-      href="/auth/login"
-      class="text-green-400 font-bold px-4 py-2 rounded-full hover:bg-white/20"
-      >Sign in</a
-    >
-    <a
-      href="/auth/signup"
-      class="bg-green-600 text-white font-bold px-4 py-2 rounded-full hover:bg-green-500 hover:text-white/80"
-      >Sign up</a
-    >
+  <div class="flex md:w-1/4 justify-end gap-2">
+    {#if !user.isLoggedIn}
+      <a
+        href="/auth/login"
+        class="text-green-400 font-bold px-4 py-2 rounded-full hover:bg-white/20"
+        >Sign in</a
+      >
+      <a
+        href="/auth/signup"
+        class="hidden md:inline-block bg-green-600 text-white font-bold px-4 py-2 rounded-full hover:bg-green-500 hover:text-white/80"
+        >Sign up</a
+      >
+    {:else}
+      <div class="relative">
+        <button
+          class="flex items-center gap-2 text-white font-bold px-4 py-2 rounded-full hover:bg-white/20 topNavLoginDropDownButton"
+          aria-label="User Menu"
+          on:click={() => (showTopNavLoginDropDown = !showTopNavLoginDropDown)}
+        >
+          <i class="fa fa-user-circle text-2xl"></i>
+          {user.data.name}
+        </button>
+        {#if showTopNavLoginDropDown}
+          <div
+            class="topNavLoginDropDown absolute right-0 mt-2 w-48 bg-[#131214] rounded-md shadow-lg overflow-hidden z-50"
+          >
+            <a
+              href="/profile"
+              class="block px-4 py-2 text-gray-400 hover:bg-white/10 hover:text-white"
+              >Profile</a
+            >
+            <a
+              href="/auth/logout"
+              class="block px-4 py-2 text-gray-400 hover:bg-white/10 hover:text-white"
+              >Logout</a
+            >
+          </div>
+        {/if}
+      </div>
+    {/if}
   </div>
 </nav>
 
 <!-- Sidebar -->
 <aside
-  class="fixed top-0 left-0 w-[250px] h-full bg-[#131214] shadow-lg p-4 space-y-6 transform transition-transform duration-300 z-40
+  class="sidebar fixed top-0 left-0 w-[250px] h-full bg-[#131214] shadow-lg p-4 space-y-6 transform transition-transform duration-300 z-[100]
     md:translate-x-0
     {sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
     md:w-[300px]"
 >
   <div class="flex justify-between items-center mb-6 md:hidden">
-    <h1 class="text-2xl gradient-text">OGAMB</h1>
+    <h1 class="text-2xl gradient-text">hehepgame</h1>
     <button on:click={() => (sidebarOpen = false)} aria-label="close">
-      <i class="bi bi-x-lg text-xl text-white"></i>
+      <i class="fa fa-x text-xl text-white"></i>
     </button>
   </div>
 

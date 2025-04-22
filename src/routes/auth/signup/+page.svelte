@@ -1,5 +1,6 @@
 <script lang="ts">
   import { notify } from "$lib/notification";
+  import { goto } from "$app/navigation";
 
   let username: string = "";
   let email: string = "";
@@ -33,8 +34,8 @@
         const data = await response.json();
     
         if (response.status === 201) {
-            notify("Account created successfully!");
-            window.location.replace("/");
+            notify("Account created successfully! Please check your email for verification.");
+            goto("/auth/verify-otp", { replaceState: true });
         } else {
             error = data.message || data.error || "Failed to create account";
         }
@@ -75,6 +76,7 @@
           bind:value={username}
           class="pl-12 input"
           required
+          disabled={isBusy}
         />
       </div>
 
@@ -89,6 +91,7 @@
           bind:value={email}
           class="pl-12 input"
           required
+          disabled={isBusy}
         />
       </div>
 
@@ -97,7 +100,7 @@
         <i
           class="fa-solid fa-calendar-days absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
         ></i>
-        <input type="date" bind:value={birthday} class="pl-12 input" required />
+        <input type="date" bind:value={birthday} class="pl-12 input" required disabled={isBusy} />
       </div>
 
       <!-- Password -->
@@ -111,6 +114,7 @@
           bind:value={password}
           class="pl-12 input"
           required
+          disabled={isBusy}
         />
       </div>
 
@@ -125,6 +129,7 @@
           bind:value={confirmPassword}
           class="pl-12 input"
           required
+          disabled={isBusy}
         />
       </div>
 

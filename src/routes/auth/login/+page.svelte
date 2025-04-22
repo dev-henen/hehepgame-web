@@ -1,6 +1,40 @@
-<script>
+<script lang="ts">
+  import { notify } from "$lib/notification";
+
   let email = "";
   let password = "";
+  let error: string = "";
+  let isBusy: boolean = false;
+
+  async function handleLogin() {
+    error = ""; // Reset error message
+
+    try {
+        isBusy = true; // Set busy state
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+    
+        const data = await response.json();
+    
+        if (response.status === 200) {
+            notify("Login successful!");
+            window.location.replace('/');
+        } else {
+            error = data.message || data.error || "Failed to log you in.";
+        }
+    } catch(e) {
+        console.error(e);
+        notify("An error occurred while logging your account in.");
+    } finally {
+        isBusy = false; // Reset busy state
+    }
+  }
 </script>
 
 <svelte:head>
@@ -17,6 +51,8 @@
     </div>
     <h2 class="text-3xl font-bold text-white">Log In</h2>
 
+    <div class="text-red-500 text-sm"> {error} </div>
+
     <div class="space-y-4">
       <!-- Email -->
       <div class="relative">
@@ -29,6 +65,7 @@
           bind:value={email}
           class="pl-12 input"
           required
+          disabled={isBusy}
         />
       </div>
 
@@ -43,13 +80,14 @@
           bind:value={password}
           class="pl-12 input"
           required
+          disabled={isBusy}
         />
       </div>
       <div>
         <a href="/auth/forgot-password" class="text-green-500 hover:underline">Forgot password?</a>
       </div>
 
-      <button type="submit" class="w-full button secondary"> Log In </button>
+      <button type="submit" class="w-full button secondary" on:click={handleLogin} disabled={isBusy}> Log In </button>
     </div>
 
     <div class="text-center text-gray-400">

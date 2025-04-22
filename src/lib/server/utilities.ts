@@ -1,4 +1,4 @@
-export function basicAuth(method: string, body: any) {
+export function basicAuth(method: string, body: any = {}) {
 
     const request: any = {
         headers: {
