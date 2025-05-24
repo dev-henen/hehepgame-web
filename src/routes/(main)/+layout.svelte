@@ -88,7 +88,7 @@
           on:click={() => (showTopNavLoginDropDown = !showTopNavLoginDropDown)}
         >
           <i class="fa fa-user-circle text-2xl"></i>
-          {trimName(user.data.name)}
+          <span>{trimName(user.data.name)}</span>
         </button>
         {#if showTopNavLoginDropDown}
           <div
