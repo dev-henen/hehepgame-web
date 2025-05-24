@@ -4,12 +4,16 @@
   export let data;
   const user = data.user;
 
-  let isEditing: boolean = false;
+  let isEditing = false;
+  let isBusy = false;
+  let error = "";
+
   let name: string = user.data.name || "";
   let email: string = user.data.email || "";
   let birthday: string = user.data.dateOfBirth
     ? new Date(user.data.dateOfBirth).toISOString().split("T")[0]
     : "";
+
   let formattedBirthday: string = user.data.dateOfBirth
     ? new Date(user.data.dateOfBirth).toLocaleDateString("en-US", {
         month: "long",
@@ -17,9 +21,6 @@
         year: "numeric",
       })
     : "";
-  let phone: string = "+1234567890";
-  let error: string = "";
-  let isBusy: boolean = false;
 
   function toggleEdit() {
     isEditing = !isEditing;
@@ -62,10 +63,10 @@
   }
 </script>
 
-<div class="p-4 sm:p-6 text-white">
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl sm:text-3xl font-bold">
-      <i class="fa-solid fa-user mr-2"></i>Profile
+<section class="max-w-4xl px-4 sm:px-6 text-white space-y-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+      <i class="fa-solid fa-user text-blue-400"></i> Profile
     </h1>
     <button class="button flex items-center gap-2" on:click={toggleEdit}>
       <i class={`fa-solid ${isEditing ? "fa-xmark" : "fa-pen-to-square"}`}></i>
@@ -73,71 +74,66 @@
     </button>
   </div>
 
-  <div class="bg-[#131214] rounded-2xl shadow-lg p-6 space-y-6 max-w-3xl">
+  <div class="bg-[#131214] rounded-2xl p-6 shadow-lg grid sm:grid-cols-2 gap-6">
+    <!-- Error Message -->
     {#if error}
-      <div class="text-red-500 flex items-center gap-2">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        {error}
+      <div class="sm:col-span-2 text-red-500 flex items-center gap-2">
+        <i class="fa-solid fa-circle-exclamation"></i> {error}
       </div>
     {/if}
 
-    <!-- Profile Fields -->
-    <div class="space-y-4">
-      <!-- Name -->
-      <div>
-        <label class="block text-gray-400 mb-1" for="name">
-          <i class="fa-solid fa-signature mr-1"></i>Name
-        </label>
-        {#if isEditing}
-          <input
-            id="name"
-            type="text"
-            bind:value={name}
-            class="input"
-            disabled={isBusy}
-          />
-        {:else}
-          <p class="text-lg">{name}</p>
-        {/if}
-      </div>
-
-      <!-- Email -->
-      <div>
-        <label class="block text-gray-400 mb-1" for="email">
-          <i class="fa-solid fa-envelope mr-1"></i>Email
-        </label>
-        <p class="text-lg" id="email">{email}</p>
-      </div>
-
-      <!-- Birthday -->
-      <div>
-        <label class="block text-gray-400 mb-1" for="birthday">
-          <i class="fa-solid fa-cake-candles mr-1"></i>Birthday
-        </label>
-        {#if isEditing}
-          <input
-            id="birthday"
-            type="date"
-            bind:value={birthday}
-            class="input"
-            disabled={isBusy}
-          />
-        {:else}
-          <p class="text-lg">{formattedBirthday}</p>
-        {/if}
-      </div>
+    <!-- Name -->
+    <div>
+      <label class="block text-sm text-gray-400 mb-1">
+        <i class="fa-solid fa-signature mr-1"></i> Name
+      </label>
+      {#if isEditing}
+        <input
+          type="text"
+          bind:value={name}
+          class="input w-full"
+          disabled={isBusy}
+        />
+      {:else}
+        <p class="text-lg">{name}</p>
+      {/if}
     </div>
 
-    {#if isEditing}
-      <div class="flex justify-end pt-4">
-        <button
-          class="button bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center gap-2"
-          on:click={handleUpdate}
+    <!-- Email -->
+    <div>
+      <label class="block text-sm text-gray-400 mb-1">
+        <i class="fa-solid fa-envelope mr-1"></i> Email
+      </label>
+      <p class="text-lg text-gray-300">{email}</p>
+    </div>
+
+    <!-- Birthday -->
+    <div>
+      <label class="block text-sm text-gray-400 mb-1">
+        <i class="fa-solid fa-cake-candles mr-1"></i> Birthday
+      </label>
+      {#if isEditing}
+        <input
+          type="date"
+          bind:value={birthday}
+          class="input w-full"
           disabled={isBusy}
-        >
-          <i class="fa-solid fa-floppy-disk"></i> Save Changes
-        </button>
-      </div>
-    {/if}
+        />
+      {:else}
+        <p class="text-lg">{formattedBirthday}</p>
+      {/if}
+    </div>
   </div>
-</div>
+
+  {#if isEditing}
+    <div class="flex justify-end">
+      <button
+        class="button bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+        on:click={handleUpdate}
+        disabled={isBusy}
+      >
+        <i class="fa-solid fa-floppy-disk"></i> Save Changes
+      </button>
+    </div>
+  {/if}
+</section>
