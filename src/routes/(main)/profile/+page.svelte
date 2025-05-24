@@ -2,7 +2,6 @@
   import { notify } from "$lib/notification";
 
   export let data;
-
   const user = data.user;
 
   let isEditing: boolean = false;
@@ -27,7 +26,7 @@
   }
 
   async function handleUpdate() {
-    error = ""; // Reset error message
+    error = "";
 
     if (
       name === user.data.name &&
@@ -39,48 +38,56 @@
     }
 
     try {
-      isBusy = true; // Set busy state
+      isBusy = true;
       const response = await fetch("/api/users/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name,
-          dateOfBirth: birthday,
-        }),
+        body: JSON.stringify({ name, dateOfBirth: birthday }),
       });
 
       const data = await response.json();
 
       if (response.status === 201) {
         notify("Changes updated successfully!");
-        isEditing = false; // Exit edit mode
+        isEditing = false;
       } else {
         error = data.message || data.error || "Failed to update account";
       }
     } catch (e) {
       console.error(e);
-      notify("An error occurred while update your account.");
+      notify("An error occurred while updating your account.");
     } finally {
-      isBusy = false; // Reset busy state
+      isBusy = false;
     }
   }
 </script>
 
 <div class="p-4 sm:p-6 text-white">
   <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl sm:text-3xl font-bold">Profile</h1>
-    <button class="button" on:click={toggleEdit}>
+    <h1 class="text-2xl sm:text-3xl font-bold">
+      <i class="fa-solid fa-user mr-2"></i>Profile
+    </h1>
+    <button class="button flex items-center gap-2" on:click={toggleEdit}>
+      <i class={`fa-solid ${isEditing ? "fa-xmark" : "fa-pen-to-square"}`}></i>
       {isEditing ? "Cancel" : "Edit Profile"}
     </button>
   </div>
 
   <div class="bg-[#131214] rounded-2xl shadow-lg p-6 space-y-6 max-w-3xl">
-    <div class="text-red-500">{error}</div>
+    {#if error}
+      <div class="text-red-500 flex items-center gap-2">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        {error}
+      </div>
+    {/if}
+
     <!-- Profile Fields -->
     <div class="space-y-4">
       <!-- Name -->
       <div>
-        <label class="block text-gray-400 mb-1" for="name">Name</label>
+        <label class="block text-gray-400 mb-1" for="name">
+          <i class="fa-solid fa-signature mr-1"></i>Name
+        </label>
         {#if isEditing}
           <input
             id="name"
@@ -96,24 +103,17 @@
 
       <!-- Email -->
       <div>
-        <label class="block text-gray-400 mb-1" for="email">Email</label>
+        <label class="block text-gray-400 mb-1" for="email">
+          <i class="fa-solid fa-envelope mr-1"></i>Email
+        </label>
         <p class="text-lg" id="email">{email}</p>
-        <!-- Email is never editable -->
       </div>
-
-      <!-- Phone -->
-      <!-- <div>
-        <label class="block text-gray-400 mb-1" for="phone">Phone</label>
-        {#if isEditing}
-          <input id="phone" type="tel" bind:value={phone} class="input" disabled={isBusy} />
-        {:else}
-          <p class="text-lg">{phone}</p>
-        {/if}
-      </div> -->
 
       <!-- Birthday -->
       <div>
-        <label class="block text-gray-400 mb-1" for="birthday">Birthday</label>
+        <label class="block text-gray-400 mb-1" for="birthday">
+          <i class="fa-solid fa-cake-candles mr-1"></i>Birthday
+        </label>
         {#if isEditing}
           <input
             id="birthday"
@@ -129,10 +129,13 @@
     </div>
 
     {#if isEditing}
-      <!-- Save button appears only when editing -->
       <div class="flex justify-end pt-4">
-        <button class="button" on:click={handleUpdate} disabled={isBusy}>
-          Save Changes
+        <button
+          class="button bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center gap-2"
+          on:click={handleUpdate}
+          disabled={isBusy}
+        >
+          <i class="fa-solid fa-floppy-disk"></i> Save Changes
         </button>
       </div>
     {/if}
