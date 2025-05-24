@@ -202,9 +202,9 @@
       </li>
       <li>
         <a
-          href="#/1"
+          href="/settings"
           class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
-          '/link'
+          '/settings'
             ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
             : ''}">⚙ Settings</a
         >
