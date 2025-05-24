@@ -128,7 +128,10 @@
   <div class="flex items-center justify-between">
     <a
       href="/wallet"
-      class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full hover:bg-white/20 text-white"
+      class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full hover:bg-white/20 text-white {pathname ===
+      '/wallet'
+        ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
+        : ''}"
     >
       <i class="fa fa-wallet"></i>
       {!user.isLoggedIn ? "Wallet" : formatMoney(user.data.balance)}
