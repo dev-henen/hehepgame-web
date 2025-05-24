@@ -14,7 +14,7 @@ export async function POST({ params, request }) {
 
         const apiResponse = await fetch(
             getEndpoint(`/payments/paystack/verify/${reference}`),
-            basicAuth('POST', body)
+            basicAuth('GET', body)
         );
 
         const apiData = await parseJSONSafe(apiResponse.json());
