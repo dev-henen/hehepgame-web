@@ -26,46 +26,50 @@
 <section
   class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-6 bg-[#131214] p-6 rounded-xl"
 >
-{#if recentWinnings.data.length > 0}
-<div>
-  <h2 class="text-lg font-bold mb-4">
-    <span class="text-red-500"><i class="bi bi-tag"></i> Recent</span> Wins
-  </h2>
-  <div class="space-y-4">
-    {#each recentWinnings.data as game}
-      <div class="flex items-center gap-4">
-        {#if game.icon.startsWith("http://") || game.icon.startsWith("https://")}
-          <img
-            src={game.icon}
-            alt="Icon"
-            class="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover"
-          />
-        {:else}
-          <span
-            class="w-10 h-10 md:w-12 md:h-12 text-5xl rounded-lg object-cover mr-2"
-            >{game.icon}</span
-          >
-        {/if}
-        <div>
-          <div class="text-xs md:text-sm">
-            {game.winner.name ? game.winner.name + " won: " : "Profit:"}
-            <mark class="gradient-text">{game.name || formatMoney(game.amount)}</mark>
-            in {game.source || 'Unknown'}
+  {#if recentWinnings.data.length > 0}
+    <div>
+      <h2 class="text-lg font-bold mb-4">
+        <span class="text-red-500">
+          <i class="fa-solid fa-clock-rotate-left mr-1"></i>Recent
+        </span> Wins
+      </h2>
+      <div class="space-y-4">
+        {#each recentWinnings.data as game}
+          <div class="flex items-center gap-4">
+            {#if game.icon.startsWith("http://") || game.icon.startsWith("https://")}
+              <img
+                src={game.icon}
+                alt="Icon"
+                class="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover"
+              />
+            {:else}
+              <span
+                class="w-10 h-10 md:w-12 md:h-12 text-5xl rounded-lg object-cover mr-2"
+              >{game.icon}</span>
+            {/if}
+            <div>
+              <div class="text-xs md:text-sm">
+                {game.winner.name ? game.winner.name + " won: " : "Profit:"}
+                <mark class="gradient-text">{game.name || formatMoney(game.amount)}</mark>
+                in {game.source || 'Unknown'}
+              </div>
+              <div class="text-gray-400 text-xs md:text-sm">
+                <i class="fa-regular fa-calendar-clock mr-1"></i>
+                {formatSuperFriendlyDate(game.date)}
+              </div>
+            </div>
           </div>
-          <div class="text-gray-400 text-xs md:text-sm">
-            {formatSuperFriendlyDate(game.date)}
-          </div>
-        </div>
+        {/each}
       </div>
-    {/each}
-  </div>
-</div>
-{/if}
+    </div>
+  {/if}
 
   {#if topWinnings.data.length > 0}
     <div>
       <h2 class="text-lg font-bold mb-4">
-        <span class="text-yellow-400"><i class="bi bi-star"></i> Top</span> Wins
+        <span class="text-yellow-400">
+          <i class="fa-solid fa-trophy mr-1"></i>Top
+        </span> Wins
       </h2>
       <div class="space-y-4">
         {#each topWinnings.data as game}
@@ -79,8 +83,7 @@
             {:else}
               <span
                 class="w-10 h-10 md:w-12 md:h-12 text-5xl rounded-lg object-cover mr-2"
-                >{game.icon}</span
-              >
+              >{game.icon}</span>
             {/if}
             <div>
               <div class="text-xs md:text-sm">
@@ -89,6 +92,7 @@
                 in {game.source || 'Unknown'}
               </div>
               <div class="text-gray-400 text-xs md:text-sm">
+                <i class="fa-regular fa-calendar-clock mr-1"></i>
                 {formatSuperFriendlyDate(game.date)}
               </div>
             </div>
@@ -99,25 +103,29 @@
   {/if}
 
   {#if topWinnings.data.length > 0}
-  <div>
-    <h2 class="text-lg font-bold mb-4">
-      <span class="text-green-400"
-        ><i class="bi bi-check-circle"></i> Trending</span
-      > Right Now
-    </h2>
-    <div class="space-y-4">
-      <div class="flex items-center gap-4">
-        <img
-          src="/images/2 (1).PNG"
-          alt="Icon"
-          class="w-[100px] md:w-[170px] h-[100px] md:h-[170px] rounded-lg object-cover"
-        />
-        <div>
-          <div class="text-xs md:text-sm">{topWinnings.data[0].source || 'Unknown'}</div>
-          <div class="text-gray-400 text-[10px] md:text-xs">King of originals</div>
+    <div>
+      <h2 class="text-lg font-bold mb-4">
+        <span class="text-green-400">
+          <i class="fa-solid fa-fire mr-1"></i>Trending
+        </span> Right Now
+      </h2>
+      <div class="space-y-4">
+        <div class="flex items-center gap-4">
+          <img
+            src="/images/2 (1).PNG"
+            alt="Icon"
+            class="w-[100px] md:w-[170px] h-[100px] md:h-[170px] rounded-lg object-cover"
+          />
+          <div>
+            <div class="text-xs md:text-sm">
+              {topWinnings.data[0].source || 'Unknown'}
+            </div>
+            <div class="text-gray-400 text-[10px] md:text-xs">
+              <i class="fa-solid fa-crown mr-1"></i>King of originals
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   {/if}
 </section>
