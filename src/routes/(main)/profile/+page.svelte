@@ -1,5 +1,6 @@
 <script lang="ts">
   import { notify } from "$lib/notification";
+  import { setIsBusy } from "$lib/stores/is-busy";
 
   export let data;
   const user = data.user;
@@ -59,6 +60,7 @@
       notify("An error occurred while updating your account.");
     } finally {
       isBusy = false;
+      isEditing = false;
     }
   }
 </script>

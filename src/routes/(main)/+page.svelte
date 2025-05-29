@@ -133,10 +133,10 @@
   {/if}
 </section>
 
-<button on:click={() => showDialog = true} class="button main-button">Open Dialog</button>
+<!-- <button on:click={() => showDialog = true} class="button main-button">Open Dialog</button>
 
 <Dialog open={showDialog} onClose={() => showDialog = false}>
   <h2 class="text-xl font-bold mb-4">Dialog Content</h2>
   <p>This is your custom content inside the dialog.</p>
   <button class="mt-4 button" on:click={() => showDialog = false}>Close</button>
-</Dialog>
+</Dialog> -->
