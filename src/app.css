@@ -145,6 +145,36 @@
         }
     }
 
+    .scrollable-on-hover {
+        overflow-y: auto;
+        scrollbar-width: thin;
+        /* Firefox */
+        scrollbar-color: #444 transparent;
+    }
+
+    .scrollable-on-hover::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scrollable-on-hover::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scrollable-on-hover::-webkit-scrollbar-thumb {
+        background-color: #444;
+        border-radius: 4px;
+    }
+
+    /* Only show scrollbar on hover */
+    .scrollable-on-hover {
+        scrollbar-gutter: stable;
+        overflow-y: hidden;
+    }
+
+    .scrollable-on-hover:hover {
+        overflow-y: auto;
+    }
+
 }
 
 @layer utilities {

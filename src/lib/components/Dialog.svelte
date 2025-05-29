@@ -107,7 +107,7 @@
     >
       <div
         bind:this={dialogRef}
-        class={`w-full sm:w-[500px] max-h-[90vh] h-[75vh] bg-[#131214] rounded-t-2xl sm:rounded-2xl p-4 sm:p-6 overflow-y-auto relative 
+        class={`w-full sm:w-[500px] max-h-[90vh] h-[75vh] bg-[#131214] rounded-t-2xl sm:rounded-2xl p-4 sm:p-6 relative 
   transform transition-all duration-300 ease-out 
   ${open ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"} 
   animate-[dialogInMobile_0.4s_ease-out] sm:animate-[dialogInDesktop_0.4s_ease-out]`}
@@ -121,7 +121,9 @@
           class="w-12 h-1.5 bg-gray-600 rounded-full mx-auto mb-4 sm:hidden"
         ></div>
 
-        <slot />
+        <div class="scrollable-on-hover overflow-y-auto h-full w-full">
+          <slot />
+        </div>
       </div>
     </div>
   {/if}
