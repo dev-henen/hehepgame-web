@@ -1,6 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import { messageStore, messageStateStore } from "$lib/notification";
+  import { isBusyStore } from "$lib/stores/is-busy";
 
   let message: string | null = null;
   let state: string | null = null;
@@ -10,6 +11,11 @@
   messageStateStore.subscribe((value: any) => {
     state = value;
   });
+
+    let isBusy: boolean | null = null;
+    isBusyStore.subscribe((value: any) => {
+        isBusy = value;
+    });
 </script>
 
 <svelte:head>
@@ -33,5 +39,13 @@
     "
   >
     <p>{$messageStore}</p>
+  </div>
+{/if}
+
+{#if $isBusyStore}
+  <div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div class="bg-[#131214] rounded-2xl p-6 shadow-xl flex items-center justify-center">
+      <i class="fa-solid fa-rotate fa-spin text-white text-4xl"></i>
+    </div>
   </div>
 {/if}

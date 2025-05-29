@@ -13,8 +13,6 @@
 
     * {
         @apply box-border transition-all duration-300;
-        scrollbar-width: thin;
-        scrollbar-color: theme('colors.scrollbar-thumb') theme('colors.scrollbar-track');
     }
 
     a {
@@ -23,22 +21,6 @@
 
     a:hover {
         @apply text-primary-hover;
-    }
-
-    ::-webkit-scrollbar {
-        @apply w-3;
-    }
-
-    ::-webkit-scrollbar-track {
-        @apply bg-scrollbar-track rounded-xl shadow-inner;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        @apply bg-scrollbar-thumb rounded-xl border border-scrollbar-border shadow-inner;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        @apply bg-scrollbar-hover;
     }
 
 }
