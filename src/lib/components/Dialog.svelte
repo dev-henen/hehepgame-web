@@ -130,7 +130,7 @@
           class="w-12 h-1.5 bg-gray-600 rounded-full mx-auto mb-4 sm:hidden"
         ></div>
 
-        <div class="scrollable-on-hover overflow-y-auto h-full w-full">
+        <div class="scrollable-on-hover overflow-y-auto h-full w-full pb-16">
           <slot />
         </div>
       </div>
