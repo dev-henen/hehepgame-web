@@ -8,7 +8,6 @@
   let showTimeGameDialog: boolean = false;
 
   export let data;
-
   export const slots: any = [
     {
         id: 'slot1',
@@ -26,7 +25,11 @@
         type: 'time',
         title: 'Flash Drop: PS5 Giveaway',
         image: '/images/2 (3).PNG',
-        price: 499,
+        prizes: [
+          "1,000 NGN",
+          "2,000 NGN",
+          "3,000 NGN"
+        ],
         slotsTotal: 50,
         slotsLeft: 0,
         endsAt: '2025-06-01T20:00:00Z',
@@ -48,13 +51,19 @@
         type: 'time',
         title: 'Weekend Drop: Mystery Tech Box',
         image: '/images/2 (5).PNG',
-        price: 200,
+        prizes: [
+          "1,000 NGN",
+          "2,000 NGN",
+          "3,000 NGN"
+        ],
         slotsTotal: 60,
         slotsLeft: 25,
         endsAt: '2025-06-02T18:00:00Z',
         status: 'open'
     }
 ];
+
+let selectedSlot: any;
 
 </script>
 
@@ -106,6 +115,14 @@
         class="mt-3 text-sm button
                disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={slot.status !== 'open'}
+        on:click={() => {
+          selectedSlot = slot;
+          if (slot.type === 'gadget') {
+            showGadgetGameDialog = true;
+          } else {
+            showTimeGameDialog = true;
+          }
+        }}
       >
         {slot.status === 'open' ? 'Join Now' : slot.status === 'full' ? 'Full' : 'Closed'}
       </button>
@@ -117,9 +134,9 @@
 
 
 <Dialog bind:open={showGadgetGameDialog}>
-  <GadgetGame />
+  <GadgetGame game={selectedSlot} />
 </Dialog>
 
 <Dialog bind:open={showTimeGameDialog}>
-  <TimeGame />
+  <TimeGame game={selectedSlot} />
 </Dialog>

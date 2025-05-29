@@ -1,16 +1,15 @@
 <script lang="ts">
   import { formatMoney } from "$lib/functions";
+  export let game: {
+    title: string;
+    image: string;
+    totalSlots: number;
+    currentPlayers: number;
+    pricePerBet: number;
+    prize: string;
+  };
 
   let userHasBet = false;
-
-  const game = {
-    title: "Win an iPhone 15 Pro!",
-    image: "/images/fun-3d-cartoon-asian-teenager.jpg",
-    totalSlots: 10,
-    currentPlayers: 4,
-    pricePerBet: 1000,
-    prize: "iPhone 15 Pro",
-  };
 
   function placeBet() {
     userHasBet = true;
@@ -18,29 +17,35 @@
   }
 </script>
 
-<div class="p-4 sm:p-6 text-white max-w-3xl">
-  <div class="bg-[#131214] rounded-2xl p-6 shadow-lg space-y-6">
-    <img src={game.image} alt="Game Image" class="rounded-xl w-full max-h-[250px] object-cover" />
+{#if game}
+  <div class="p-2 text-white">
+    <div class="flex flex-col space-y-4 min-h-[380px]">
+      <!-- Image -->
+      <img src={game.image} alt="Game Image" class="rounded-xl w-full h-48 object-cover" />
 
-    <h1 class="text-2xl font-bold">{game.title}</h1>
+      <!-- Title -->
+      <h1 class="text-xl sm:text-2xl font-bold">{game.title}</h1>
 
-    <div class="flex flex-col gap-2 text-sm text-gray-300">
-      <div><i class="fa-solid fa-users mr-2"></i>Players: {game.currentPlayers} / {game.totalSlots}</div>
-      <div><i class="fa-solid fa-tag mr-2"></i>Bet Cost: {formatMoney(game.pricePerBet)}</div>
-      <div><i class="fa-solid fa-box mr-2"></i>Prize: {game.prize}</div>
-    </div>
-
-    {#if !userHasBet}
-      <button
-        on:click={placeBet}
-        class="w-full button main-button"
-      >
-        Place Bet
-      </button>
-    {:else}
-      <div class="text-center text-green-400 text-lg font-bold">
-        You are in! Waiting for results...
+      <!-- Info Rows -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-400">
+        <div><i class="fa-solid fa-users mr-2 text-gray-500"></i>Players: {game.currentPlayers} / {game.totalSlots}</div>
+        <div><i class="fa-solid fa-tag mr-2 text-gray-500"></i>Bet Cost: {formatMoney(game.pricePerBet)}</div>
+        <div class="sm:col-span-2"><i class="fa-solid fa-box mr-2 text-gray-500"></i>Prize: {game.prize}</div>
       </div>
-    {/if}
+
+      <!-- Action -->
+      {#if !userHasBet}
+        <button
+          on:click={placeBet}
+          class="mt-auto w-full button main-button"
+        >
+          Place Bet
+        </button>
+      {:else}
+        <div class="text-center text-green-400 text-base font-semibold mt-auto">
+          ✅ You are in! Waiting for results...
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
+{/if}

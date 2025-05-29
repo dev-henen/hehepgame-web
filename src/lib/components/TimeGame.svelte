@@ -1,28 +1,25 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  export let game: {
+    title: string;
+    image: string;
+    totalSlots: number;
+    currentPlayers: number;
+    endsAt: Date;
+    prizes: string[];
+  };
 
   let userHasBet = false;
   let selectedPrize = "";
-
-  const game = {
-    title: "Mystery Prize Countdown!",
-    image: "/images/fun-3d-cartoon-asian-teenager.jpg",
-    totalSlots: 10,
-    currentPlayers: 6,
-    endsAt: new Date(Date.now() + 1000 * 60 * 5), // 5 minutes
-    prizes: ["1,000 NGN", "2,000 NGN", "3,000 NGN", "5,000 NGN", "10,000 NGN"],
-  };
-
   let timeLeft = "";
 
   function updateCountdown() {
     const now = new Date();
-    const diff = game.endsAt.getTime() - now.getTime();
+    const diff = new Date(game.endsAt).getTime() - now.getTime();
     if (diff <= 0) {
       timeLeft = "Game ended";
       return;
     }
-
     const minutes = Math.floor(diff / 60000);
     const seconds = Math.floor((diff % 60000) / 1000);
     timeLeft = `${minutes}m ${seconds}s`;
@@ -41,36 +38,52 @@
   }
 </script>
 
-<div class="p-4 sm:p-6 text-white max-w-3xl">
-  <div class="bg-[#131214] rounded-2xl p-6 shadow-lg space-y-6">
-    <img src={game.image} alt="Game Image" class="rounded-xl w-full max-h-[250px] object-cover" />
+{#if game}
+  <div class="p-2 text-white">
+    <div class="flex flex-col space-y-4 min-h-[420px]">
+      <!-- Image -->
+      <img src={game.image} alt="Game Image" class="rounded-xl w-full h-48 object-cover" />
 
-    <h1 class="text-2xl font-bold">{game.title}</h1>
+      <!-- Title -->
+      <h1 class="text-xl sm:text-2xl font-bold">{game.title}</h1>
 
-    <div class="flex flex-col gap-2 text-sm text-gray-300">
-      <div><i class="fa-solid fa-users mr-2"></i>Players: {game.currentPlayers} / {game.totalSlots}</div>
-      <div><i class="fa-solid fa-clock mr-2"></i>Time Left: {timeLeft}</div>
+      <!-- Info Rows -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-400">
+        <div><i class="fa-solid fa-users mr-2 text-gray-500"></i>Players: {game.currentPlayers} / {game.totalSlots}</div>
+        <div><i class="fa-solid fa-clock mr-2 text-gray-500"></i>Time Left: {timeLeft}</div>
+      </div>
 
+      <!-- Prize Selection -->
       <div>
-        <i class="fa-solid fa-gift mr-2"></i>Choose a prize:
+        <div class="flex items-center gap-2 text-gray-300">
+          <i class="fa-solid fa-gift text-gray-500"></i>
+          {#if !userHasBet}
+            <span>Choose a prize:</span>
+          {:else}
+            <span class="text-green-400 font-semibold">Your Choice: {selectedPrize}</span>
+          {/if}
+        </div>
+
         {#if !userHasBet}
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
             {#each game.prizes as prize}
-              <button class="button main-button" on:click={() => placeBet(prize)}>
+              <button
+                class="button main-button"
+                on:click={() => placeBet(prize)}
+              >
                 {prize}
               </button>
             {/each}
           </div>
-        {:else}
-          <div class="text-green-400 font-bold mt-2">Your Choice: {selectedPrize}</div>
         {/if}
       </div>
-    </div>
 
-    {#if userHasBet}
-      <div class="text-center text-green-400 text-lg font-bold">
-        You are in! Waiting for results...
-      </div>
-    {/if}
+      <!-- Status Message -->
+      {#if userHasBet}
+        <div class="text-center text-green-400 text-base font-semibold mt-auto">
+          ✅ You are in! Waiting for results...
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
+{/if}
