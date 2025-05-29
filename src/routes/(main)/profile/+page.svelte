@@ -49,7 +49,7 @@
 
       const data = await response.json();
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         notify("Changes updated successfully!");
         isEditing = false;
       } else {
