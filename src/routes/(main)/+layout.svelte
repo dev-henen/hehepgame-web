@@ -4,13 +4,20 @@
 
   export let data;
 
-  $: pathname = data.pathname;
+  let pathname: string = "";
+
+  $: {
+    pathname = data.pathname;
+    sidebarOpen = false;
+    showTopNavLoginDropDown = false;
+  }
 
   const user = data.user;
 
   let search: string = "";
   let sidebarOpen: boolean = false;
   let showTopNavLoginDropDown: boolean = false;
+
 
   onMount(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -214,6 +221,6 @@
 </aside>
 
 <!-- Main -->
-<main class="pt-24 p-1 md:p-4 space-y-10 md:ml-[300px]">
+<main class="px-1 md:px-4 pt-24 space-y-10 md:ml-[300px]">
   <slot />
 </main>
