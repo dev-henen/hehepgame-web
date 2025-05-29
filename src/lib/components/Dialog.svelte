@@ -16,17 +16,26 @@
   let dragging = false;
 
   function handleTouchStart(e: TouchEvent) {
+    if (!dialogRef) return;
+
     startY = e.touches[0].clientY;
-    dragging = true;
+    dragging = dialogRef.scrollTop === 0;
   }
 
   function handleTouchMove(e: TouchEvent) {
     if (!dragging) return;
+
     const currentY = e.touches[0].clientY;
     translateY = currentY - startY;
 
-    if (translateY > 0 && dialogRef) {
+    // If dragging down and at top, perform drag
+    if (translateY > 0 && dialogRef?.scrollTop === 0) {
+      e.preventDefault();
       dialogRef.style.transform = `translateY(${translateY}px)`;
+    } else {
+      // User likely scrolling down, cancel drag
+      dragging = false;
+      translateY = 0;
     }
   }
 
@@ -103,7 +112,7 @@
   {#if visible}
     <div
       class="fixed inset-0 h-screen w-screen z-[1000] bg-black/60 backdrop-blur-sm flex justify-center items-end sm:items-center"
-      on:click={() => (onClose(), open = false)}
+      on:click={() => (onClose(), (open = false))}
     >
       <div
         bind:this={dialogRef}
