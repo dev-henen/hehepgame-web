@@ -66,7 +66,7 @@
   }
 </script>
 
-<section class="max-w-3xl p-2 md:p-6 text-white space-y-6">
+<section class="p-2 text-white space-y-6">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold">
       <i class="fa-solid fa-bell mr-2 text-yellow-400"></i> Notifications

@@ -1,10 +1,13 @@
 <script lang="ts">
   import { formatMoney, trimName } from "$lib/functions";
   import { onMount } from "svelte";
+  import Dialog from '$lib/components/Dialog.svelte';
+  import Notifications from "$lib/components/Notifications.svelte";
 
   export let data;
 
   let pathname: string = "";
+  let showNotificationsDialog: boolean = false;
 
   $: {
     pathname = data.pathname;
@@ -145,13 +148,13 @@
     </a>
 
     {#if user.isLoggedIn}
-      <a href="/notifications" class="relative text-white">
+      <button class="relative text-white" on:click={() => showNotificationsDialog = true}>
         <i class="fa fa-bell"></i>
         <span
           class="absolute -top-4 -right-4 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1"
           >3</span
         >
-      </a>
+      </button>
     {/if}
   </div>
 
@@ -224,3 +227,8 @@
 <main class="px-1 md:px-4 pt-24 space-y-10 md:ml-[300px]">
   <slot />
 </main>
+
+
+<Dialog open={showNotificationsDialog} onClose={() => showNotificationsDialog = false}>
+  <Notifications />
+</Dialog>
