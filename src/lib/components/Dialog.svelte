@@ -34,6 +34,7 @@
     dragging = false;
 
     if (translateY > 100) {
+      open = false;
       onClose();
     } else if (dialogRef) {
       dialogRef.style.transition = "transform 0.3s ease-out";
@@ -102,7 +103,7 @@
   {#if visible}
     <div
       class="fixed inset-0 h-screen w-screen z-[1000] bg-black/60 backdrop-blur-sm flex justify-center items-end sm:items-center"
-      on:click={() => onClose()}
+      on:click={() => (onClose(), open = false)}
     >
       <div
         bind:this={dialogRef}

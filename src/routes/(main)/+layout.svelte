@@ -3,11 +3,13 @@
   import { onMount } from "svelte";
   import Dialog from '$lib/components/Dialog.svelte';
   import Notifications from "$lib/components/Notifications.svelte";
+  import Settings from "$lib/components/Settings.svelte";
 
   export let data;
 
   let pathname: string = "";
   let showNotificationsDialog: boolean = false;
+  let showSettingsDialog: boolean = false;
 
   $: {
     pathname = data.pathname;
@@ -211,12 +213,8 @@
         >
       </li>
       <li>
-        <a
-          href="/settings"
-          class="block px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white {pathname ===
-          '/settings'
-            ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
-            : ''}">⚙ Settings</a
+        <button
+          class="block w-full text-left px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white" on:click={() => (showSettingsDialog = true, showTopNavLoginDropDown = false)}>⚙ Settings</button
         >
       </li>
     </ul>
@@ -229,6 +227,10 @@
 </main>
 
 
-<Dialog open={showNotificationsDialog} onClose={() => showNotificationsDialog = false}>
+<Dialog bind:open={showNotificationsDialog}>
   <Notifications />
+</Dialog>
+
+<Dialog bind:open={showSettingsDialog}>
+  <Settings />
 </Dialog>
