@@ -1,7 +1,7 @@
 <script lang="ts">
   import { dialogScrollStore } from "$lib/stores/dialogScrollStore";
-  import { onDestroy, onMount } from "svelte";
-  import { afterNavigate, beforeNavigate, goto } from "$app/navigation";
+  import { onDestroy } from "svelte";
+  import { afterNavigate, goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
 
@@ -72,10 +72,16 @@
     }
   }
 
-  const ref = "dialog:" + Math.random().toString(36).substring(2, 9);
+  const ref = "D::" + Math.random().toString(36).substring(2, 9);
 
   $: if (browser && open) {
     goto(`#${ref}`);
+  }
+
+  $: if (browser && !open) {
+    if ($page.url.hash === `#${ref}`) {
+      history.back();
+    }
   }
 
   afterNavigate(() => {
