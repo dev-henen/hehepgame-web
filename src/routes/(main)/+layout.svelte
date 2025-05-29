@@ -1,15 +1,17 @@
 <script lang="ts">
   import { formatMoney, trimName } from "$lib/functions";
   import { onMount } from "svelte";
-  import Dialog from '$lib/components/Dialog.svelte';
+  import Dialog from "$lib/components/Dialog.svelte";
   import Notifications from "$lib/components/Notifications.svelte";
   import Settings from "$lib/components/Settings.svelte";
+  import Wallet from "$lib/components/Wallet.svelte";
 
   export let data;
 
   let pathname: string = "";
   let showNotificationsDialog: boolean = false;
   let showSettingsDialog: boolean = false;
+  let showWalletDialog: boolean = false;
 
   $: {
     pathname = data.pathname;
@@ -22,7 +24,6 @@
   let search: string = "";
   let sidebarOpen: boolean = false;
   let showTopNavLoginDropDown: boolean = false;
-
 
   onMount(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -138,19 +139,23 @@
   </div>
 
   <div class="flex items-center justify-between">
-    <a
-      href="/wallet"
-      class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full hover:bg-white/20 text-white {pathname ===
-      '/wallet'
-        ? 'bg-gradient-to-r from-green-400/30 to-white/20 text-white'
-        : ''}"
+    <button
+      class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full hover:bg-white/20 text-white"
+      on:click={() => (
+        (showWalletDialog = true), (showTopNavLoginDropDown = false)
+      )}
     >
       <i class="fa fa-wallet"></i>
       {!user.isLoggedIn ? "Wallet" : formatMoney(user.data.balance)}
-    </a>
+    </button>
 
     {#if user.isLoggedIn}
-      <button class="relative text-white" on:click={() => (showNotificationsDialog = true, showTopNavLoginDropDown = false)}>
+      <button
+        class="relative text-white"
+        on:click={() => (
+          (showNotificationsDialog = true), (showTopNavLoginDropDown = false)
+        )}
+      >
         <i class="fa fa-bell"></i>
         <span
           class="absolute -top-4 -right-4 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1"
@@ -214,7 +219,10 @@
       </li>
       <li>
         <button
-          class="block w-full text-left px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white" on:click={() => (showSettingsDialog = true, showTopNavLoginDropDown = false)}>⚙ Settings</button
+          class="block w-full text-left px-4 py-2 rounded-r-full text-gray-400 hover:bg-white/10 hover:text-white"
+          on:click={() => (
+            (showSettingsDialog = true), (showTopNavLoginDropDown = false)
+          )}>⚙ Settings</button
         >
       </li>
     </ul>
@@ -226,11 +234,14 @@
   <slot />
 </main>
 
-
 <Dialog bind:open={showNotificationsDialog}>
   <Notifications />
 </Dialog>
 
 <Dialog bind:open={showSettingsDialog}>
   <Settings />
+</Dialog>
+
+<Dialog bind:open={showWalletDialog}>
+  <Wallet />
 </Dialog>
