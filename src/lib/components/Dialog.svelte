@@ -1,6 +1,9 @@
 <script lang="ts">
   import { dialogScrollStore } from "$lib/stores/dialogScrollStore";
   import { onDestroy, onMount } from "svelte";
+  import { afterNavigate, beforeNavigate, goto } from "$app/navigation";
+  import { page } from "$app/stores";
+  import { browser } from "$app/environment";
 
   export let open: boolean = false;
   export let onClose: () => void = () => {};
@@ -69,30 +72,23 @@
     }
   }
 
-  onDestroy(() => {
-    dialogScrollStore.close(instanceId);
+  const ref = "dialog:" + Math.random().toString(36).substring(2, 9);
+
+  $: if (browser && open) {
+    goto(`#${ref}`);
+  }
+
+  afterNavigate(() => {
+    if (browser && open) {
+      if ($page.url.hash !== `#${ref}`) {
+        onClose();
+        open = false;
+      }
+    }
   });
 
-  onMount(() => {
-    const handlePopState = (e: PopStateEvent) => {
-      if (open) {
-        e.preventDefault();
-        onClose();
-        // Push the state again so back doesn't close the page entirely
-        history.pushState(null, "", location.href);
-      }
-    };
-
-    // When dialog opens, push a state to history
-    if (open) {
-      history.pushState(null, "", location.href);
-    }
-
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
+  onDestroy(() => {
+    dialogScrollStore.close(instanceId);
   });
 </script>
 
