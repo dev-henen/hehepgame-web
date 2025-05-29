@@ -148,7 +148,7 @@
     </a>
 
     {#if user.isLoggedIn}
-      <button class="relative text-white" on:click={() => showNotificationsDialog = true}>
+      <button class="relative text-white" on:click={() => (showNotificationsDialog = true, showTopNavLoginDropDown = false)}>
         <i class="fa fa-bell"></i>
         <span
           class="absolute -top-4 -right-4 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1"
