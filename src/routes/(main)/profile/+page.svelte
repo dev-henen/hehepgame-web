@@ -63,7 +63,7 @@
   }
 </script>
 
-<section class="max-w-4xl px-4 sm:px-6 text-white space-y-6">
+<section class="max-w-4xl p-2 md:p-6 text-white space-y-6">
   <div class="flex items-center justify-between">
     <h1 class="text-2xl sm:text-3xl font-bold flex items-center gap-2">
       <i class="fa-solid fa-user text-blue-400"></i> Profile

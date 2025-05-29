@@ -24,7 +24,7 @@
 
 <!-- Activities -->
 <section
-  class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-6 bg-[#131214] p-6 rounded-xl"
+  class="grid grid-cols-1 md:grid-cols-3 gap-y-10 md:gap-6 bg-[#131214] p-2 md:p-6 rounded-xl"
 >
   {#if recentWinnings.data.length > 0}
     <div>

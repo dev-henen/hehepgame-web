@@ -42,7 +42,7 @@
   }
 </script>
 
-<div class="p-4">
+<div class="p-2 md:p-6">
   <h2 class="text-2xl sm:text-3xl font-bold mb-4">
     <i class="fa-solid fa-wallet mr-2"></i>Wallet
   </h2>

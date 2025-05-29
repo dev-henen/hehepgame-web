@@ -214,6 +214,6 @@
 </aside>
 
 <!-- Main -->
-<main class="pt-24 p-4 space-y-10 md:ml-[300px]">
+<main class="pt-24 p-1 md:p-4 space-y-10 md:ml-[300px]">
   <slot />
 </main>

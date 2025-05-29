@@ -10,7 +10,7 @@
   }
 </script>
 
-<section class="max-w-xl p-6 bg-[#131214] text-white rounded-2xl shadow-lg space-y-6">
+<section class="max-w-xl p-2 md:p-6 bg-[#131214] text-white rounded-2xl shadow-lg space-y-6">
   <h2 class="text-2xl font-bold mb-4">
     <i class="fa-solid fa-gear mr-2 text-blue-400"></i> Settings
   </h2>
