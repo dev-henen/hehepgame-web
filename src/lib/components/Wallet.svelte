@@ -42,7 +42,7 @@
   }
 </script>
 
-<div class="p-2 md:p-6">
+<div class="p-2">
   <h2 class="text-2xl sm:text-3xl font-bold mb-4">
     <i class="fa-solid fa-wallet mr-2"></i>Wallet
   </h2>
@@ -81,7 +81,7 @@
         type="number"
         placeholder="Enter amount"
         bind:value={fundAmount}
-        class="input border rounded p-2 mb-2 md:w-1/2 lg:w-1/3"
+        class="input border rounded p-2 mb-2"
       /><br />
       <button on:click={fundWallet} class="button">
         <i class="fa-solid fa-arrow-up-right-dots mr-1"></i> Fund Wallet
@@ -96,7 +96,7 @@
         type="number"
         placeholder="Enter amount"
         bind:value={withdrawAmount}
-        class="input border rounded p-2 mb-2 md:w-1/2 lg:w-1/3"
+        class="input border rounded p-2 mb-2"
       /><br />
       <button
         on:click={withdrawFunds}
