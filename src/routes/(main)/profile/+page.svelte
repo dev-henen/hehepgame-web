@@ -1,6 +1,6 @@
 <script lang="ts">
   import { notify } from "$lib/notification";
-  import { setIsBusy } from "$lib/stores/is-busy";
+  import ErrorText from "$lib/components/ErrorText.svelte";
 
   export let data;
   const user = data.user;
@@ -78,11 +78,7 @@
 
   <div class="bg-[#131214] rounded-2xl p-6 shadow-lg grid sm:grid-cols-2 gap-6">
     <!-- Error Message -->
-    {#if error}
-      <div class="sm:col-span-2 text-red-500 flex items-center gap-2">
-        <i class="fa-solid fa-circle-exclamation"></i> {error}
-      </div>
-    {/if}
+    <ErrorText text={error} />
 
     <!-- Name -->
     <div>
